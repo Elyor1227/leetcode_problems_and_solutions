@@ -196,7 +196,7 @@ var fourSum = function(nums, target) {
 console.log(fourSum([1,0,-1,0,-2,2], 0));
 
 
-// 27. Remove Element
+// 27. Remove Element (easy)
 
 // Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
 // Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
@@ -228,3 +228,77 @@ console.log(fourSum([1,0,-1,0,-2,2], 0));
     return k;
   }
   
+  //  31. Next Permutation (medium)
+//   A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+// For example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].
+// The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).
+// For example, the next permutation of arr = [1,2,3] is [1,3,2].
+// Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
+// While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.
+// Given an array of integers nums, find the next permutation of nums.
+// The replacement must be in place and use only constant extra memory.
+
+// SOLUTION => 
+  var nextPermutation = function(nums) {
+    let i = nums.length - 2;
+
+    while (i >= 0 && nums[i] >= nums[i + 1]) {
+      i--;
+    }
+  
+    if (i >= 0) {
+      let j = nums.length - 1;
+      while (nums[j] <= nums[i]) {
+        j--;
+      }
+  
+      [nums[i], nums[j]] = [nums[j], nums[i]];
+    }
+  
+    reverse(nums, i + 1);
+  }
+  
+  function reverse(nums, start) {
+    let end = nums.length - 1;
+    while (start < end) {
+      [nums[start], nums[end]] = [nums[end], nums[start]];
+      start++;
+      end--;
+    }
+  }
+
+  // 33. Search in Rotated Sorted Array (medium)
+  // There is an integer array nums sorted in ascending order (with distinct values).
+  // Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
+  // Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
+  // You must write an algorithm with O(log n) runtime complexity.
+
+  //  Example 1:
+// Input: nums = [4,5,6,7,0,1,2], target = 0
+// Output: 4
+
+// SOLUTION => 
+  var search = function(nums, target) {
+    let left = 0;
+    let right = nums.length-1;
+
+    while(left <= right){
+      let mid = Math.floor((left+right)/2);
+      if(nums[mid] === target) return mid;
+
+      if(nums[left] <= nums[mid]){
+        if(nums[left] <= target && target < nums[mid]){
+          right = mid-1;
+        }else{
+          left = mid+1;
+        }
+      }else{
+        if(nums[mid] < target && target <= nums[right]){
+          left = mid+1;
+        }else{
+          right = mid-1;
+        }
+      }
+    }
+    return -1;
+  }
