@@ -140,3 +140,91 @@
 
   return closest;
 }
+
+
+// 4Sum (easy)
+
+// Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+// 0 <= a, b, c, d < n
+// a, b, c, and d are distinct.
+// nums[a] + nums[b] + nums[c] + nums[d] == target
+// You may return the answer in any order.
+
+// Example 1:
+
+// Input: nums = [1,0,-1,0,-2,2], target = 0
+// Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+
+// SOLUTION => 
+var fourSum = function(nums, target) {
+    nums.sort((a, b) => a - b);
+    const result = [];
+  
+    const n = nums.length;  
+  
+    for (let i = 0; i < n - 3; i++) {
+      if (i > 0 && nums[i] === nums[i - 1]) continue; 
+  
+      for (let j = i + 1; j < n - 2; j++) {
+        if (j > i + 1 && nums[j] === nums[j - 1]) continue; 
+  
+        let left = j + 1;
+        let right = n - 1;
+  
+        while (left < right) {
+          const sum = nums[i] + nums[j] + nums[left] + nums[right];
+  
+          if (sum === target) {
+            result.push([nums[i], nums[j], nums[left], nums[right]]);
+  
+            while (left < right && nums[left] === nums[left + 1]) left++;
+            while (left < right && nums[right] === nums[right - 1]) right--;
+  
+            left++;
+            right--;
+          } else if (sum < target) {
+            left++; 
+          } else {
+            right--;
+          }
+        }
+      }
+    }
+  return result;
+};
+
+console.log(fourSum([1,0,-1,0,-2,2], 0));
+
+
+// 27. Remove Element
+
+// Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+// Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+// Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+// Return k.
+// Custom Judge:
+// The judge will test your solution with the following code:
+// int[] nums = [...]; // Input array
+// int val = ...; // Value to remove
+// int[] expectedNums = [...]; // The expected answer with correct length.
+//                             // It is sorted with no values equaling val.
+// int k = removeElement(nums, val); // Calls your implementation
+// assert k == expectedNums.length;
+// sort(nums, 0, k); // Sort the first k elements of nums
+// for (int i = 0; i < actualLength; i++) {
+//     assert nums[i] == expectedNums[i];
+// }
+// If all assertions pass, then your solution will be accepted.
+
+//SOLUTION => 
+  var removeElement = function(nums, val) {
+    let k = 0;
+    for(let i = 0; i< nums.length; i++){
+        if(nums[i] !== val){
+            nums[k] = nums[i];
+            k++;
+        }
+    }
+    return k;
+  }
+  
