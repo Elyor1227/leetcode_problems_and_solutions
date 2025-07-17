@@ -302,3 +302,49 @@ console.log(fourSum([1,0,-1,0,-2,2], 0));
     }
     return -1;
   }
+
+//   34. Find First and Last Position of Element in Sorted Array (medium) 
+// Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.
+// If target is not found in the array, return [-1, -1].
+
+// You must write an algorithm with O(log n) runtime complexity.
+
+// Example 1:
+
+// Input: nums = [5,7,7,8,8,10], target = 8
+// Output: [3,4]
+
+// SOLUTION => 
+  var searchRange = function(nums, target) {
+    const findPosition = (findFirst) => {
+      let left = 0;
+      let right = nums.length - 1;
+      let result = -1;
+  
+      while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+  
+        if (nums[mid] === target) {
+          result = mid;
+          if (findFirst) {
+            // search on the left side
+            right = mid - 1;
+          } else {
+            // search on the right side
+            left = mid + 1;
+          }
+        } else if (nums[mid] < target) {
+          left = mid + 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+  
+      return result;
+    };
+  
+    let start = findPosition(true);  // find first occurrence
+    let end = findPosition(false);   // find last occurrence
+  
+    return [start, end];
+  }
