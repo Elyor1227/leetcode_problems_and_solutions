@@ -464,5 +464,118 @@ console.log(fourSum([1,0,-1,0,-2,2], 0));
 
   console.log(solveSudoku([["5","3",".",".","7",".",".",".","."],["6",".",".","1","9","5",".",".","."],[".","9","8",".",".",".",".","6","."],["8",".",".",".","6",".",".",".","3"],["4",".",".","8",".","3",".",".","1"],["7",".",".",".","2",".",".",".","6"],[".","6",".",".",".",".","2","8","."],[".",".",".","4","1","9",".",".","5"],[".",".",".",".","8",".",".","7","9"]]));
 
+
+//   39. Combination Sum (medium)
+// Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+
+// The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+
+// The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+ 
+
+// Example 1:
+
+// Input: candidates = [2,3,6,7], target = 7
+// Output: [[2,2,3],[7]]
+// Explanation:
+// 2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+// 7 is a candidate, and 7 = 7.
+// These are the only two combinations.
+
+// SOLUTION => 
+  var combinationSum = function(candidates, target) {
+    const result = [];
+    const backtrack = (start, target, current) => {
+      if(target === 0){
+        result.push([...current]);
+      }
+      if(target < 0) return;
+      for(let i = start; i< candidates.length; i++){
+        current.push(candidates[i]);
+        backtrack(i, target - candidates[i], current);
+        current.pop();
+      }
+    }
+    backtrack(0, target, []);
+    return result;
+  }
+
+  console.log(combinationSum([2,3,6,7], 7));
+
   
-  
+                                                  // the1person1of1future
+                                                  // the1person1of1future
+                                                  // Rank
+                                                  // 3,174,835
+
+// 40. Combination Sum II
+// Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+// Each number in candidates may only be used once in the combination.
+// Note: The solution set must not contain duplicate combinations.
+// Example 1:
+// Input: candidates = [10,1,2,7,6,1,5], target = 8
+// Output: 
+// [
+// [1,1,6],
+// [1,2,5],
+// [1,7],
+// [2,6]
+// ]
+
+// SOLUTION => 
+  var combinationSum2 = function(candidates, target) {
+    candidates.sort((a, b) => a - b);
+  const results = [];
+
+  function backtrack(start, path, total) {
+    if (total === target) {
+      results.push([...path]);
+      return;
+    }
+    if (total > target) return;
+
+    for (let i = start; i < candidates.length; i++) {
+      if (i > start && candidates[i] === candidates[i - 1]) continue;
+
+      path.push(candidates[i]);
+      backtrack(i + 1, path, total + candidates[i]);
+    }
+  }
+
+  backtrack(0, [], 0);
+  return results;
+  };
+
+  console.log(combinationSum2([10,1,2,7,6,1,5], 8));
+
+//   41. First Missing Positive
+// Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
+// You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
+// Example 1:
+
+// Input: nums = [1,2,0]
+// Output: 3
+// Explanation: The numbers in the range [1,2] are all in the array.
+// Example 2:
+
+// Input: nums = [3,4,-1,1]
+// Output: 2
+// Explanation: 1 is in the array but 2 is missing.
+
+// SOLUTION => 
+  var firstMissingPositive = function(nums) {
+    const n = nums.length;
+    for(let i = 0; i< n; i++){
+      while(nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] !== nums[i]){
+        [nums[nums[i] - 1], nums[i]] = [nums[i], nums[nums[i] - 1]];
+      }
+    }
+    for(let i = 0; i< n; i++){
+      if(nums[i] !== i+1) return i+1;
+    }
+    return n+1;
+  }
+
+  console.log(firstMissingPositive([1,2,0]));
+  console.log(firstMissingPositive([3,4,-1,1]));
